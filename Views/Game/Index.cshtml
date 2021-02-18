@@ -1,0 +1,422 @@
+@model CaraCara.ViewModel.GameViewModel
+@{
+    ViewData["Title"] = "Index";
+    var chars = Model.Chars;
+}
+
+
+<style>
+  .redStr {
+    background-color: red;
+    width: 20px;
+    height: 257px;
+    transform: rotate(135deg);
+    position: relative;
+    left: 80px;
+    top: -38px;
+  }
+    .column {
+        float: left;
+        width: 200px;
+        height: 200px;
+        padding: 10px;
+        margin: 10px;
+        cursor: pointer;
+        -webkit-transition: background-color .5s ease-out;
+        -moz-transition: background-color .5s ease-out;
+        -o-transition: background-color .5s ease-out;
+        transition: background-color .5s ease-out;
+    }
+
+        .column:hover {
+            opacity: 0.7;
+        }
+
+    .content-width:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+    .modal-content {
+        @* background: #2d2d2d !important; *@
+    }
+
+    .character-avatar {
+    }
+
+    .card {
+        @* background: #565656 !important; *@
+        @* color: #fff; *@
+    }
+
+    .text-collapse {
+        @* color: #dedede !important; *@
+        text-decoration: underline !important;
+    }
+</style>
+<script src="~/js/site.js"></script>
+
+<div class="container text-center">
+    <div class="pontos font-bold">100
+    </div>
+    <div class="">
+        <button class="btn btn-primary" data-toggle="modal" data-target="#askModal">Ask</button>
+        <button class="btn btn-secondary" id="btnEliminateChars" onclick="hideChars()">Hide Chars</button>
+    </div>
+    <div class="content-width content-chars">
+        @foreach (var c in Model.Chars)
+        {
+            var CharacterName = c.Name.ToLower();
+            var Url = "assets/chars/" + CharacterName + ".png";
+            <div class="column" data-character="@CharacterName" style="background-image:url(@Url)">
+
+            </div>
+        }
+    </div>
+
+
+</div>
+
+
+<style>
+    .color-circle {
+      width: 13px;
+      height: 13px;
+      border-radius: 7px;
+      display: inline-block;
+    }
+</style>
+<!-- Ask Modal -->
+<div class="modal fade" id="askModal" tabindex="-1" role="dialog" aria-labelledby="askModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                @*<h5 class="modal-title" id="askModalLabel"></h5>*@
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" style="color: #fff;">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="float-left">
+                    <img class="character-avatar" />
+                </div>
+                <div class="" style="margin-left: 210px;">
+                    <div class="accordion" id="accordionQuestions">
+                        <div class="card">
+                            <div class="card-header" id="headingOne">
+                                <h2 class="mb-0">
+                                    <button class="btn text-collapse" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        Hair Color
+                                    </button>
+                                </h2>
+                            </div>
+
+                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionQuestions">
+                                <div class="card-body">
+                                    <div class="form-check">
+                                        <input data-image="hair_black" class="form-check-input" type="radio" name="checkOptions" id="checkBlackHair" value="hair_black">
+                                        <label class="form-check-label" for="checkBlackHair">
+                                            Black
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input data-image="hair_yellow" class="form-check-input" type="radio" name="checkOptions" id="checkYellowHair" value="hair_yellow">
+                                        <label class="form-check-label" for="checkYellowHair">
+                                            Blonde
+                                        </label>
+                                    </div>
+
+                                    <div class="form-check">
+                                        <input data-image="hair_brown" class="form-check-input" type="radio" name="checkOptions" id="checkBrownHair" value="hair_brown">
+                                        <label class="form-check-label" for="checkBrownHair">
+                                            Brown
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header" id="headingTwo">
+                                <h2 class="mb-0">
+                                    <button class="btn text-collapse collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                        Hair Length
+                                    </button>
+                                </h2>
+                            </div>
+                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionQuestions">
+                                <div class="card-body">
+                                    <div class="form-check">
+                                        <input data-image="hair_short" class="form-check-input" type="radio" name="checkOptions" id="checkShortHair" value="hair_short" checked>
+                                        <label class="form-check-label" for="checkShortHair">
+                                            Short
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input data-image="hair_long" class="form-check-input" type="radio" name="checkOptions" id="checkLongHair" value="hair_long">
+                                        <label class="form-check-label" for="checkLongHair">
+                                            Long
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header" id="headingThree">
+                                <h2 class="mb-0">
+                                    <button class="btn text-collapse collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                        Eye Color
+                                    </button>
+                                </h2>
+                            </div>
+                            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionQuestions">
+                                <div class="card-body">
+                                    <div class="form-check">
+                                        <input data-image="eye_brown" class="form-check-input" type="radio" name="checkOptions" id="checkEyeBrown" value="eye_brown" checked>
+                                        <label class="form-check-label" for="checkEyeBrown">
+                                            Brown
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input data-image="eye_blue" class="form-check-input" type="radio" name="checkOptions" id="checkEyeBlue" value="eye_blue">
+                                        <label class="form-check-label" for="checkEyeBlue">
+                                            Blue
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input data-image="eye_green" class="form-check-input" type="radio" name="checkOptions" id="checkEyeGreen" value="eye_green">
+                                        <label class="form-check-label" for="checkEyeGreen">
+                                            Green
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header" id="headingGender">
+                                <h2 class="mb-0">
+                                    <button class="btn text-collapse collapsed" type="button" data-toggle="collapse" data-target="#collapseGender" aria-expanded="false" aria-controls="collapseGender">
+                                        Gender
+                                    </button>
+                                </h2>
+                            </div>
+                            <div id="collapseGender" class="collapse" aria-labelledby="headingGender" data-parent="#accordionQuestions">
+                                <div class="card-body">
+
+                                    <div class="form-check">
+                                        <input data-image="male" class="form-check-input" type="radio" name="checkOptions" id="checkMale" value="male">
+                                        <label class="form-check-label" for="checkMale">
+                                            Male
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input data-image="female" class="form-check-input" type="radio" name="checkOptions" id="checkFemale" value="female">
+                                        <label class="form-check-label" for="checkFemale">
+                                            Female
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header" id="headingGlasses">
+                                <h2 class="mb-0">
+                                    <button class="btn text-collapse collapsed" type="button" data-toggle="collapse" data-target="#collapseGlasses" aria-expanded="false" aria-controls="collapseGlasses">
+                                        Glasses
+                                    </button>
+                                </h2>
+                            </div>
+                            <div id="collapseGlasses" class="collapse" aria-labelledby="headingGlasses" data-parent="#accordionQuestions">
+                                <div class="card-body">
+
+                                    <div class="form-check">
+                                        <input data-image="glasses" class="form-check-input" type="radio" name="checkOptions" id="checkGlassesTrue" value="glasses_true">
+                                        <label class="form-check-label" for="checkGlassesTrue">
+                                            Use glasses
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" onclick="askBtnOnClick();" class="btn btn-primary" data-toggle="modal" data-target="#askConfirmModal">Ask</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="askConfirmModal" tabindex="-1" role="dialog" aria-labelledby="askConfirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                @*                <h5 class="modal-title" id="askConfirmModalLabel">Modal title</h5>*@
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span id="questionText"></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Back</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="confirmAsk()">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="feedbackModal" tabindex="-1" role="dialog" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                @*                <h5 class="modal-title" id="askConfirmModalLabel">Modal title</h5>*@
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span id="feedbackModalText"></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="showBtnEliminateChars()">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="finalModal" tabindex="-1" role="dialog" aria-labelledby="finalModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="">Final</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Paranbéns, você acertou o personagem! 
+                Pontos: <span class="finalPontos"></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/js/ObjectsGame.js"></script>
+<script>
+    var elements = document.getElementsByClassName("column");
+
+    var i;
+    var pontos = 100;
+
+    function drawCharacter() {
+        var characterFinal = new ObjectsGame();
+        characterFinal = characterFinal.personagens[Math.floor(Math.random() * (characterFinal.personagens.length - 1))];
+        return characterFinal;
+    }
+
+    var char;
+    $(document).ready(function () {
+        char = drawCharacter();
+        console.log(char);
+      $('#btnEliminateChars').hide()
+    });
+
+    $('.form-check > input').click(function () {
+        var img = $(this).data('image');
+        var urlImageChar = '/assets/questions/' + img + '.png';
+        //$('.character-avatar').css('background-image', 'url("' + urlImageChar + '")');
+        $('.character-avatar').prop('src', urlImageChar);
+    });
+      
+    var question;
+    function askConfirm() {
+        var typeQuestion = $('input[name=checkOptions]:checked', '#accordionQuestions').val();
+        question = getQuestion(typeQuestion);
+        $('#questionText').empty();
+        $('#questionText').append(question.question);
+    }
+
+    function getQuestion(typeQuestion) {
+
+        var questionObject;
+
+        var objectsGame = new ObjectsGame();
+        questionObject = objectsGame.questions.find(({ key }) => key === typeQuestion);
+        
+        return questionObject;
+    }
+
+    function askBtnOnClick() {
+        askConfirm();
+    }
+
+    function confirmAsk() {
+        $('#askModal').modal('hide');
+        
+        $('#feedbackModalText').empty();
+        if(this.char[question.key]) {
+          $('#feedbackModalText').append(question.textHave);
+        } else {
+          $('#feedbackModalText').append(question.textDontHave);
+          this.pontos -= 10;
+          $('.pontos').empty();
+          $('.pontos').append(this.pontos);
+        }
+        $('#feedbackModal').modal('show');
+    }
+
+    function showBtnEliminateChars() {
+      $('#btnEliminateChars').show();
+
+       var eliminatedChars = new ObjectsGame();//todo: filtrar chars que nao possuem pergunta
+      eliminatedChars = eliminatedChars.personagens.filter(p => p[question.key] != this.char[question.key])//talvez .value
+      console.log(eliminatedChars)
+
+       var columnsToHide = [];
+      $('.column').filter(function() {
+         //if(eliminatedChars.indexOf($(this).data().character) == -1)
+          //columnsToHide.push($(this));
+        eliminatedChars.forEach(e => { 
+          if(e.img == $(this).data().character){
+            if(!$(this).children().hasClass('redStr'))
+              $(this).append('<div class="redStr"></div>')
+          }    
+        });         
+      });
+    }
+
+  function finalGame() {
+    $('.finalPontos').empty();
+    $('.finalPontos').append(this.pontos);
+      $('#finalModal').modal('show');
+  }
+
+    function hideChars() {
+    $('.column').filter(function() {
+      if($(this).children().hasClass('redStr'))
+        $(this).remove()
+      });
+       if($('.content-width').children().length == 1){
+      finalGame(); 
+    }
+    }
+
+   
+
+</script>
